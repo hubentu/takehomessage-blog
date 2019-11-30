@@ -9,4 +9,4 @@ location: Buffalo
 
 # What is TakeHoMessage for?
 
-**Take Home Message** is a collection of short tip/note for #rstats #DataScience #Bioformatics and more.
+`Take Home Message` is a collection of short tip/note for #rstats #DataScience #Bioformatics and more.
