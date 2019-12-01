@@ -6,7 +6,7 @@ module.exports = {
     /**
      * Ref: https://vuepress-theme-blog.ulivz.com/#nav
      */
-    nav: [
+      nav: [
       {
         text: 'Blog',
         link: '/',
@@ -35,7 +35,7 @@ module.exports = {
         },
         {
           type: 'web',
-          link: 'https://hubentu.github.io/others/Rcwl/',
+          link: 'https://hubentu.github.io/Rcwl/',
         }
       ],
       copyright: [
@@ -52,7 +52,7 @@ module.exports = {
 
     modifyBlogPluginOptions (blogPluginOptions) {
       const sitemap = {
-        hostname: 'https://takehomessage'
+	      hostname: 'https://hutuben.github.io'
       }
 
       const comment = {
