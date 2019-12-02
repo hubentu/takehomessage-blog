@@ -36,6 +36,7 @@
     "vue-feather-icons": "^4.21.0"
   },
   "devDependencies": {
+    "@vuepress/theme-blog": "^1.3.3",
     "conventional-changelog-cli": "^2.0.1",
     "eslint-config-sherry": "0.0.1",
     "vuepress": "^1.0.0"
