@@ -17,7 +17,7 @@ p2 <- ggplot(mpg) + geom_boxplot(aes(x = class, y = hwy, fill = drv))
 p3 <- ggplot(mpg) + geom_bar(aes(class, fill = drv))
 ```
 
-## `patchwork`
+## [patchwork](https://patchwork.data-imaginist.com/)
 
 ```r
 library(patchwork)
@@ -26,7 +26,7 @@ library(patchwork)
 
 ![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png)
 
-## `cowplot`
+## [cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html)
 
 ```r
 library(cowplot)
@@ -35,7 +35,7 @@ plot_grid(plot_grid(p1, p2, ncol = 2), p3, ncol = 1)
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
 
-## `gridExtra`
+## [gridExtra](https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html)
 
 ```r
 library(gridExtra)

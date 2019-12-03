@@ -7,20 +7,23 @@ set -e
 vuepress build takehomessage --temp takehomessage/.temp
 
 # navigate into the build output directory
-cd takehomessage/.vuepress/dist
+# cd takehomessage/.vuepress/dist
 
 # if you are deploying to a custom domain
-echo 'www.takehomessage.com' > CNAME
+# 'takehomessage.com' > CNAME
 
-git init
+rsync -av takehomessage/.vuepress/dist/ ../hutuben.github.io/ --delete --exclude=.git --exclude=CNAME --exclude=.gitignore --exclude=*figure*
+
+cd ../hutuben.github.io/
 git add -A
-git commit -m 'deploy'
-
+d=`date +"%D"`
+git commit -m $d
+git push origin master
 # if you are deploying to https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
 
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
 # git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
-git push -f https://github.com/hubentu/takehomessage.git master:gh-pages
+# git push -f https://github.com/hubentu/takehomessage.git master:gh-pages
 
 cd -

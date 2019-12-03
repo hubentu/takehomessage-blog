@@ -23,3 +23,8 @@ Add `takehomessage.com` (without www.) and save. Enable https later.
 | A     | @    | 185.199.111.153   |
 
 That's it. Both `takehomessage.com` and `www.takehomessage.com` go to `hutuben.github.io`.
+
+Ref:
+
+1. <https://medium.com/@hossainkhan/using-custom-domain-for-github-pages-86b303d3918a>
+2. <https://help.github.com/en/github/working-with-github-pages/configuring-a-custom-domain-for-your-github-pages-site>
