@@ -24,7 +24,7 @@ library(patchwork)
 (p1 + p2) / p3
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png)
+![plot of chunk patchwork12.2](/figure/patchwork12.2-1.png)
 
 ## [cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html)
 
@@ -33,7 +33,7 @@ library(cowplot)
 plot_grid(plot_grid(p1, p2, ncol = 2), p3, ncol = 1)
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
+![plot of chunk cowplot12.2](/figure/cowplot12.2-1.png)
 
 ## [gridExtra](https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html)
 
@@ -42,4 +42,4 @@ library(gridExtra)
 grid.arrange(arrangeGrob(p1, p2, ncol = 2), p3, ncol=1)
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
+![plot of chunk gridExtra12.2](/figure/gridExtra12.2-1.png)

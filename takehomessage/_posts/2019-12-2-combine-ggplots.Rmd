@@ -17,19 +17,19 @@ p3 <- ggplot(mpg) + geom_bar(aes(class, fill = drv))
 ```
 
 ## [patchwork](https://patchwork.data-imaginist.com/)
-```{r}
+```{r, patchwork12.2}
 library(patchwork)
 (p1 + p2) / p3
 ```
 
 ## [cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html)
-```{r}
+```{r, cowplot12.2}
 library(cowplot)
 plot_grid(plot_grid(p1, p2, ncol = 2), p3, ncol = 1)
 ```
 
 ## [gridExtra](https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html)
-```{r}
+```{r, gridExtra12.2}
 library(gridExtra)
 grid.arrange(arrangeGrob(p1, p2, ncol = 2), p3, ncol=1)
 ```
