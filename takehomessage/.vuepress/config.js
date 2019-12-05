@@ -76,6 +76,7 @@ module.exports = {
       {
         'ga': 'UA-154016823-1'
       }
-    ]
+    ],
+    'social-share'
   ]
 }
