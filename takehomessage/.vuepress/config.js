@@ -44,7 +44,7 @@ module.exports = {
           link: 'https://policies.google.com/privacy?hl=en-US',
         },
         {
-          text: 'MIT Licensed | Copyright © 2019-present',
+          text: 'MIT Licensed | Copyright © 2019-present | takehomessage.com',
           link: '',
         },
       ],
@@ -52,7 +52,7 @@ module.exports = {
 
     modifyBlogPluginOptions (blogPluginOptions) {
       const sitemap = {
-	      hostname: 'https://hutuben.github.io'
+	      hostname: 'https://takehomessage.com'
       }
 
       const comment = {
@@ -70,4 +70,12 @@ module.exports = {
 
     // paginationComponent: 'SimplePagination'
   },
+  plugins: [
+    [
+      '@vuepress/google-analytics',
+      {
+        'ga': 'UA-154016823-1'
+      }
+    ]
+  ]
 }
