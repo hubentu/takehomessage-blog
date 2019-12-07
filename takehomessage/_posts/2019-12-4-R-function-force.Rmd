@@ -9,19 +9,19 @@ tag:
 When to use `force` function?
 
 R function arguments are Lazy Evaluated. It causes confuse when function return a function in `for` a loop.
-```{r}
+```r
 f <- function(x) function() x
 ```
 
 The function `f` will evaluate arguments in the end of the loop.
-```{r}
+```r
 lf <- vector("list", 5)
 for (i in seq(lf)) lf[[i]] <- f(i)
 lf[[1]]()
 ```
 
 The `force` function make sure the argument evaluated in each loop.
-```{r}
+```r
 f1 <- function(x) {
     force(x)
     function()x
@@ -31,7 +31,7 @@ lf[[1]]()
 ```
 
 The `lapply` function seems not lazy evaluated.
-```{r}
+```r
 lr <- lapply(seq(5), f)
 lr[[1]]()
 ```

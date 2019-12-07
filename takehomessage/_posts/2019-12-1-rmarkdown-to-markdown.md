@@ -7,13 +7,13 @@ author: Qiang
 
 # How to convert Rmarkdown (Rmd) to markdown (md)?
 
-```{r}
+```r
 knitr:knit("rmarkdown.Rmd")
 ```
 
 Or
 
-```{r}
+```r
 library(rmarkdown)
 render("rmarkdown.Rmd", md_document("markdown_github"))
 ```
