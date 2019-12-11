@@ -16,6 +16,15 @@ p2 <- ggplot(mpg) + geom_boxplot(aes(x = class, y = hwy, fill = drv))
 p3 <- ggplot(mpg) + geom_bar(aes(class, fill = drv))
 ```
 
+## [patchwork](https://patchwork.data-imaginist.com/)
+
+```r
+library(patchwork)
+(p1 + p2) / p3 + plot_layout(guides = "collect")
+```
+
+![plot of chunk patchwork12.3](/figure/patchwork12.3-1.png)
+
 ## [cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html)
 
 ```r

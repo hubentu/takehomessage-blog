@@ -1,0 +1,55 @@
+---
+date: 2019/12/10
+tag:
+  - rstats
+  - JavaScript
+---
+
+# Have some fun with JavaScript emoji library using the V8 R package.
+
+## Installation in Ubuntu 18.04
+Instruction: <https://github.com/nodesource/distributions/blob/master/README.md>
+
+1. Install `libnode-dev`
+```sh
+sudo add-apt-repository ppa:cran/v8
+sudo apt-get update
+sudo apt-get install libnode-dev
+```
+
+2. Install snap version of `nodejs`
+```sh
+sudo snap install node --classic --channel=8
+```
+
+3. Install V8 package
+```{r, eval=FALSE}
+install.packages("V8")
+library(V8)
+```
+
+```
+## Using V8 engine 6.8.275.32-node.12
+```
+
+## emoji-translate
+Translate text to emoji
+<https://github.com/notwaldorf/emoji-translate>
+
+1. Wrap `moji-translate`
+```sh
+npm install moji-translate
+echo "global.emoji = require('moji-translate');" > in.js
+browserify in.js -o bundle.js
+```
+
+2. Load JavaScript library in V8
+```{r}
+ct <- v8()
+ct$source("bundle.js")
+```
+
+```{r}
+ct$get(JS('Object.keys(global)'))
+ct$call("emoji.translate", "the house is on fire and the cat is eating the cake")
+```
