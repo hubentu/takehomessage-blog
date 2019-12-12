@@ -1,0 +1,34 @@
+---
+date: 2019/12/11
+tag:
+  - tidytuesday
+  - rstats
+---
+
+# TidyTuesday: Highcharter for time series data
+
+## Load the diseases data
+```{r, eval=FALSE}
+library(tidyverse)
+library(highcharter)
+diseases <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-10/diseases.csv")
+```
+
+## Plot with highcharter stock type
+```{r}
+rates <- diseases %>% group_by(disease, year) %>%
+    summarise(rate = sum(count, na.rm = T) / sum(population, na.rm = T) * 1e6) %>%
+    pivot_wider(names_from = disease, values_from = rate) %>%
+    mutate(year = as.Date(as.character(year), format = "%Y"))
+rates
+hc <- highchart(type = "stock") %>%
+    hc_title(text = "Disease rate per million in U.S.") 
+walk(colnames(rates)[-1], function(dis){
+    dat <- rates %>% select(year, dis) %>%
+        column_to_rownames("year") %>% as.xts
+    hc <<- hc %>% hc_add_series(dat, name = dis)
+})
+
+```
+
+<iframeComp ihtml="/widgets/highcharter_diseases.html"></iframeComp>
