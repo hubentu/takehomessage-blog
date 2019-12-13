@@ -1,0 +1,35 @@
+---
+date: 2019/12/13
+tag:
+  - rstats
+  - takehomessage
+---
+
+# Index blog topics with [`rvest`](https://rvest.tidyverse.org/index.html) package
+
+* Aim: scrape blog titles and corresponding URLs.
+
+To get the node paths of the titles, right-click one title, then inspect. In the Elements tab, right-click - copy - Copy selector.
+```{r}
+library(rvest)
+library(purrr)
+th <- read_html("https://ulivz.com/")
+th %>% html_nodes("#base-list-layout > div > div:nth-child(1) > div.ui-post-title > a")
+```
+
+Let's scrape the useful contents.
+```{r}
+1:2 %>%
+    map_dfr(function(p){
+        url <- ifelse(p == 1,
+                      "https://ulivz.com",
+                      paste0("https://ulivz.com/page/", p))
+        th <- read_html(url)
+        urls <- th %>% html_nodes("#base-list-layout div.ui-post-title > a") %>%
+            html_attr("href")
+        titles <- th %>% html_nodes("#base-list-layout div.ui-post-title > a") %>%
+            html_text()
+        cbind(titles = titles, urls = urls)
+    })
+
+```
