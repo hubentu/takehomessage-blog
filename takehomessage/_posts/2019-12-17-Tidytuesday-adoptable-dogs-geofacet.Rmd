@@ -1,0 +1,24 @@
+---
+date: 2019/12/17
+tag:
+  - rstats
+  - tidytuesday
+---
+
+# 
+```{r}
+dog_moves <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-17/dog_moves.csv')
+dog_travel <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-17/dog_travel.csv')
+dog_descriptions <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-17/dog_descriptions.csv')
+
+library(tidyverse)
+dog_descriptions %>% left_join(dog_travel)
+
+
+library(geofacet)
+dog_moves %>% filter(inUS) %>%
+    mutate(location = replace(location, location=="Washington DC", "District of Columbia")) %>%
+    pivot_longer(cols = )
+    ggplot() + geom_col(aes(x = 1, y = exported)) + facet_geo( ~ location, grid = "us_state_grid1")
+
+```
