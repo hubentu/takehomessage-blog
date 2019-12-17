@@ -1,0 +1,22 @@
+---
+date: 2019/12/14
+tag:
+  - rstats
+---
+
+# R fun package: cowsay 💃 📦
+```{r}
+library(cowsay)
+say("fortune", by = "cow")
+```
+
+Similar in bash
+```sh
+$fortune | cowsay
+```
+
+Use [`howto`](/2019/12/13/rvest-index-blog-topics/) function.
+```{r, results = "asis"}
+say(paste("Q: How to use javascript emoji?\nA: ",
+          howto("javascript emoji", cutoff=0.1)[1,1]))
+```

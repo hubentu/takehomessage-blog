@@ -2,6 +2,7 @@
 date: 2019/12/9
 tag:
   - rstats
+  - python
 ---
 
 # How to read number column with comma as thousands separator in CSV file?
