@@ -6,7 +6,8 @@ tag:
 ---
 
 # TidyTuesday: adoptable dogs with geom_tile and geofacet 
-```{r, eval=FALSE}
+
+```r
 library(tidyverse)
 library(geofacet)
 library(knitr)
@@ -20,7 +21,8 @@ dog_ie <- dog_moves %>% filter(inUS) %>%
     select(location, exported, imported, total)
 ```
 
-```{r, dogs_geofacet, dpi=300}
+
+```r
 ## block per dog
 tc <- dog_ie %>% pull(total) %>% max %>% sqrt %>% ceiling
 dog_blocks <- dog_ie %>% select(location, exported, imported, total) %>%
@@ -42,7 +44,11 @@ dog_blocks <- dog_ie %>% select(location, exported, imported, total) %>%
 
 dog_blocks %>% filter(state == "New York") %>%
     ggplot() + geom_tile(aes(x, y, fill=z), width=0.8, height=0.8)
+```
 
+![plot of chunk dogs_geofacet](/figure/dogs_geofacet-1.png)
+
+```r
 ggplot(dog_blocks) +
     geom_tile(aes(x, y, fill=z), width=0.8, height=0.8) +
     theme_bw() + theme(legend.position = "none") +
@@ -58,3 +64,5 @@ ggplot(dog_blocks) +
           axis.ticks.y=element_blank()) +
     labs(x = "", y = "", title = "Adoptable dogs (imported, exported and total numbers)", fill = "")
 ```
+
+![plot of chunk dogs_geofacet](/figure/dogs_geofacet-2.png)
