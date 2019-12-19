@@ -1,0 +1,30 @@
+---
+date: 2019/12/18
+tag:
+  - ggplot2
+  - rstats
+---
+
+# Add markdown/html rich text to ggplot2 using ggtext
+
+## Install [`ggtext`](https://github.com/clauswilke/ggtext)
+
+```{r, eval=FALSE}
+devtools::install_github("clauswilke/ggtext")
+```
+
+## Example to style title with both markdown and html
+```{r, ggtext_title, dpi=300}
+library(ggplot2)
+library(ggtext)
+
+ggplot(mtcars) + geom_boxplot(aes(as.factor(vs), mpg, fill = as.factor(am))) +
+    labs(title = "**mtcars**
+<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Sketchup_car.png/320px-Sketchup_car.png' width='50'></img>
+: *mpg* _by_
+<i style='color:blue'>vs</i> and
+<strong style='color:red'>am</strong>") +
+    theme(plot.title = element_markdown())
+```
+
+More examples in [`ggtext`](https://github.com/clauswilke/ggtext)
