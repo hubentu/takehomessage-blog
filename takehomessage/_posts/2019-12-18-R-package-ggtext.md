@@ -16,6 +16,11 @@ devtools::install_github("clauswilke/ggtext")
 
 ## Example to style title with both markdown and html
 
+* Add **bold** and *italic* to different words in title.
+* Add different colors to different words
+* Add image to title
+
+
 ```r
 library(ggplot2)
 library(ggtext)
