@@ -6,10 +6,10 @@ tag:
 ---
 
 # Packages to draw flowchart (christmas tree) in R
-## Graphviz
-```{r}
+## [Graphviz](https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html)
+```{r, eval=FALSE}
 library(DiagrammeR)
-grViz("
+f1 <- grViz("
 digraph xmas {
   # graph satement
   graph [overlap = true, fontsize = 10]
@@ -32,9 +32,11 @@ digraph xmas {
 
 ```
 
-## mermaid
-```{r}
-mermaid("
+<iframeComp ihtml="/widgets/xmas_grViz.html"></iframeComp>
+
+## [mermaid](https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html)
+```{r, eval=FALSE}
+f2 <- mermaid("
 graph TB
   A((A)) --> B{B}
   B{B} --> |O|C{C}
@@ -56,10 +58,13 @@ graph TB
 ")
 
 ```
-Could anyone tell me how to use star, change font size, define class?
 
-## visNetwork
-```{r}
+<iframeComp ihtml="/widgets/xmas_mermaid.html"></iframeComp>
+
+Could anyone tell me how to use star/triangle, change font size, define class?
+
+## [visNetwork](https://datastorm-open.github.io/visNetwork/)
+```{r, eval=FALSE}
 library(visNetwork)
 nodes <- data.frame(id = LETTERS[1:8],
                     label = LETTERS[1:8],
@@ -67,9 +72,11 @@ nodes <- data.frame(id = LETTERS[1:8],
                     shape = c("star", rep("triangle", 6), "box"))
 edges <- data.frame(from = c("A", "B", "B", "C", "C", "D", "D", "F", "E", "G"),
                     to = c("B", "C", "D", "E", "F", "F", "G", "H", "F", "F"))
-visNetwork(nodes, edges) %>% visLayout(7)
+f3 <- visNetwork(nodes, edges) %>% visLayout(7)
 
 ```
 
+<iframeComp ihtml="/widgets/xmas_vis.html"></iframeComp>
 
-## flowchart.js
+Most R-friendly way to draw a flowchart.
+
