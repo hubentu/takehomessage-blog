@@ -34,17 +34,12 @@ conda create -n r-devel
 conda activate r-devel
 ```
 
-* Build and install From source
+* Build and install from source
 ```sh
 conda install conda-build
 conda build .
 conda install --use-local path/to/r-devel
-```
-
-Or just install the compiled version
-```sh
 conda install readline
-conda install --use-local r-devel-4.0.0-0.tar.bz2
 ```
 
 * Test
@@ -52,3 +47,6 @@ conda install --use-local r-devel-4.0.0-0.tar.bz2
 Rscript -e "R.version.string"
 ## [1] "R Under development (unstable) (2020-01-07 r77631)"
 ```
+
+Via conda environments, we can switch different version of R by `conda
+activate ...`.
