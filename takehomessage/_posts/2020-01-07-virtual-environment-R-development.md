@@ -13,6 +13,7 @@ versions of R and specific packages in different conda environments.
 
 ## For released versions
 ```sh
+conda config --add channels conda-forge
 conda create -n r-3.6
 conda activate r-3.6
 conda search r-base
@@ -38,7 +39,12 @@ conda activate r-devel
 ```sh
 conda install conda-build
 conda build .
-conda install --use-local path/to/r-devel
+conda install --use-local path/to/r-devel-gz
+```
+
+Or just install the compiled version.
+```
+conda install --use-local r-devel-4.0.0-0.tar.bz2
 conda install readline
 ```
 
@@ -49,4 +55,4 @@ Rscript -e "R.version.string"
 ```
 
 Via conda environments, we can switch different version of R by `conda
-activate ...`.
+activate renv`.
