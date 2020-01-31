@@ -148,7 +148,7 @@ file.rename("nCoV2019.html", "widgets/nCoV2019.html")
 
 ```
 
-[/widgets/nCoV2019.html](/widgets/nCoV2019.html) (reload to show)
+<a href="/widgets/nCoV2019.html" target="_blank">/widgets/nCoV2019.html</a>
 
 <iframeComp ihtml="/widgets/nCoV2019.html"></iframeComp>
 
@@ -201,7 +201,7 @@ file.rename("nCoV2019_cities.html", "widgets/nCoV2019_cities.html")
 
 ```
 
-[/widgets/nCoV2019_cities.html](/widgets/nCoV2019_cities.html) (reload to show)
+<a href="/widgets/nCoV2019_cities.html" target="_blank">/widgets/nCoV2019_cities.html</a>
 
 <iframeComp ihtml="/widgets/nCoV2019_cities.html"></iframeComp>
 
