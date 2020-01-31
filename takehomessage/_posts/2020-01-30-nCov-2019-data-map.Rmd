@@ -6,7 +6,7 @@ tag:
 
 # 2019-nCoV
 ## 2019-nCov outbreak data
-Script to extract latest 2019-nCov outbreak data from [dxy.cn](dxy.cn). **Manually updated (`r Sys.Date()`)** 
+Script to extract latest 2019-nCov outbreak data from [dxy.cn](https://dxy.cn). **Manually updated (`r Sys.Date()`)** 
 
 Date source: https://3g.dxy.cn/newh5/view/pneumonia
 ```{r}
