@@ -13,6 +13,7 @@ vuepress build takehomessage --temp takehomessage/.temp
 # 'takehomessage.com' > CNAME
 rsync -av takehomessage/_posts/figure takehomessage/.vuepress/dist/
 rsync -av takehomessage/_posts/widgets takehomessage/.vuepress/dist/
+rsync -av takehomessage/_posts/data takehomessage/.vuepress/dist/
 rsync -av takehomessage/.vuepress/dist/ ../hutuben.github.io/ --delete --exclude=.git --exclude=CNAME --exclude=.gitignore
 
 cd ../hutuben.github.io/
