@@ -1,0 +1,129 @@
+---
+date: 2020/01/30
+tag:
+  - rstats
+---
+
+# 2019-nCoV 
+## 2019-nCov outbreak data
+Script to extract latest 2019-nCov outbreak data from <dxy.cn>.
+```{r, eval=FALSE}
+library(rvest)
+library(dplyr)
+library(stringr)
+library(jsonlite)
+
+pneumonia <- read_html("https://3g.dxy.cn/newh5/view/pneumonia")
+AreaStat <- pneumonia %>% html_nodes("#getAreaStat") %>% html_text() %>%
+    str_replace("try \\{ window.getAreaStat =", "") %>%
+    str_replace("\\}catch\\(e\\)\\{\\}", "") %>%
+    fromJSON
+
+ChinaStat <- pneumonia %>% html_nodes("#getListByCountryTypeService1") %>% html_text() %>%
+    str_replace("try \\{ window.getListByCountryTypeService1 =", "") %>%
+    str_replace("\\}catch\\(e\\)\\{\\}", "") %>%
+    fromJSON
+
+IntStat <- pneumonia %>% html_nodes("#getListByCountryTypeService2") %>% html_text() %>%
+    str_replace("try \\{ window.getListByCountryTypeService2 =", "") %>%
+    str_replace("\\}catch\\(e\\)\\{\\}", "") %>%
+    fromJSON
+
+SumStat <- pneumonia %>% html_nodes("#getStatisticsService") %>% html_text() %>%
+    str_replace("try \\{ window.getStatisticsService =", "") %>%
+    str_replace("\\}catch\\(e\\)\\{\\}", "") %>%
+    fromJSON
+
+```
+
+Epidemic report for China
+```{r}
+library(knitr)
+kable(ChinaStat)
+```
+Epidemic report for outside of China
+```{r}
+kable(IntStat)
+```
+
+## Epidemic map by `leaflet`
+```{r}
+ChinaStat$province <- c(
+    "Tibet Autonomous Region",
+    "Hubei",
+    "Guangdong",
+    "Zhejiang",
+    "Beijing",
+    "Shanghai",
+    "Hunan",
+    "Anhui",
+    "Chongqing",
+    "Sichuan",
+    "Shandong",
+    "Guangxi Zhuang Autonomous Region",
+    "Fujian",
+    "Jiangsu",
+    "Henan",
+    "Hainan",
+    "Tianjin",
+    "Jiangxi",
+    "Shaanxi",
+    "Guizhou",
+    "Liaoning",
+    "Hong Kong Special Administrative Region",
+    "Heilongjiang",
+    "Macao Special Administrative Region",
+    "Xinjiang Uygur Autonomous Region",
+    "Gansu province",
+    "Yunnan",
+    "Taiwan",
+    "Shanxi",
+    "Jilin",
+    "Hebei",
+    "Ningxia Hui Autonomous Region",
+    "Inner Mongolia Autonomous Region",
+    "Qinghai")
+
+library(leaflet)
+devtools::install_github("lchiffon/leafletCN")
+library(leafletCN)
+library(RColorBrewer)
+map = leafletGeo("china", ChinaStat, namevar = ~provinceName, valuevar = ~confirmedCount)
+ChinaStat$provinceName[c(22, 24, 28)] <- c("香港特别行政区", "澳门特别行政区", "台湾省")
+map@data <- map@data %>% left_join(ChinaStat, by = c("name" = "provinceName"))
+
+bins <- c(1, 10, 20, 50, 100, 200, 500, 1000, Inf)
+pal <- colorBin("YlOrRd", domain = map$value, bins = bins)
+
+library(htmltools)
+labs <- mapply(function(n, x, y, z, h){
+    HTML(paste0(n, "<br>",
+                "confirmedCount: ", x, "<br>",
+                "curedCount: ", y, "<br>",
+                "deadCount: ", z, "<br>",
+                "updated: ", as.POSIXct(h / 1000, origin="1970-01-01")))
+}, paste0(map$name, "(", map$province, ")"),
+map$confirmedCount, map$curedCount, map$deadCount, map$modifyTime,
+SIMPLIFY = FALSE, USE.NAMES = FALSE) ## must no name
+
+leaflet(map) %>% addTiles() %>%
+    addPolygons(stroke = TRUE,
+                smoothFactor = 1,
+                fillOpacity = 0.7,
+                weight = 1,
+                fillColor = ~pal(value),
+                color = "white",
+                label = labs
+                ) %>%    
+    addLegend("bottomright", pal = pal, values = ~value,
+              title = "confirmedCount") %>%
+    addTitle(HTML(paste("2019-nCoV<br>",
+                        "Confirmed Count:", SumStat$confirmedCount, "<br>",
+                        "Suspected Count", SumStat$suspectedCount, "<br>",
+                        "Cured Count:", SumStat$curedCount, "<br>",
+                        "Dead Count:", SumStat$deadCount, "<br>",
+                        "Updated:", as.POSIXct(SumStat$modifyTime / 1000,
+                                               origin="1970-01-01"))
+                  ), fontSize = "12px",
+             leftPosition = 80)
+```
