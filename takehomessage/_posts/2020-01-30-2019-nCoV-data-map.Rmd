@@ -204,3 +204,11 @@ file.rename("nCoV2019_cities.html", "widgets/nCoV2019_cities.html")
 [/widgets/nCoV2019_cities.html](/widgets/nCoV2019_cities.html) (reload to show)
 
 <iframeComp ihtml="/widgets/nCoV2019_cities.html"></iframeComp>
+
+**More links: **
+
+More detailed maps from Johns Hopkins: https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6
+
+WHO situation reports: https://www.who.int/emergencies/diseases/novel-coronavirus-2019/situation-reports/
+
+github wuhan2020 project: https://github.com/wuhan2020/wuhan2020
