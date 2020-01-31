@@ -7,7 +7,9 @@ tag:
 # 2019-nCoV
 ## 2019-nCov outbreak data
 Script to extract latest 2019-nCov outbreak data from [dxy.cn](dxy.cn). **Manually updated (`r Sys.Date()`)** 
-```{r, eval=FALSE}
+
+Date source: https://3g.dxy.cn/newh5/view/pneumonia
+```{r}
 library(rvest)
 library(dplyr)
 library(tidyr)
@@ -41,9 +43,10 @@ SumStat <- pneumonia %>% html_nodes("#getStatisticsService") %>% html_text() %>%
     str_replace("\\}catch\\(e\\)\\{\\}", "") %>%
     fromJSON
 
-write_csv(AreaStat, paste0("data/AreaStat_", as.integer(Sys.Date()), ".csv"))
-write_csv(ChinaStat, paste0("data/ChinaStat_", as.integer(Sys.Date()), ".csv"))
-write_csv(IntStat, paste0("data/IntStat_", as.integer(Sys.Date()), ".csv"))
+write_csv(AreaStat, paste0("data/AreaStat_dxy_", gsub("[ :]", "_", Sys.time()), ".csv"))
+write_csv(ChinaStat, paste0("data/ChinaStat_dxy_", gsub("[ :]", "_", Sys.time()), ".csv"))
+write_csv(IntStat, paste0("data/IntStat_dxy_", gsub("[ :]", "_", Sys.time()), ".csv"))
+
 ```
 
 Epidemic report for China
@@ -61,13 +64,13 @@ Download the data:
 [/data](https://github.com/hutuben/hutuben.github.io/tree/master/data)
 
 ## Epidemic map by `leaflet`
-```{r, eval=FALSE}
+```{r}
 library(leaflet)
-devtools::install_github("lchiffon/leafletCN")
+##devtools::install_github("lchiffon/leafletCN")
 library(leafletCN)
 library(RColorBrewer)
 library(htmltools)
-
+library(htmlwidgets)
 ChinaStat$province <- c(
     "Tibet Autonomous Region",
     "Hubei",
@@ -140,23 +143,30 @@ ll <- leaflet(map) %>% addTiles() %>%
                   ), fontSize = "12px",
              leftPosition = 80)
 
+saveWidget(ll, "nCoV2019.html")
+file.rename("nCoV2019.html", "widgets/nCoV2019.html")
+
 ```
 
-[/widgets/nCoV2019.html](/widgets/nCoV2019.html)
+[/widgets/nCoV2019.html](/widgets/nCoV2019.html) (reload to show)
 
 <iframeComp ihtml="/widgets/nCoV2019.html"></iframeComp>
 
 
 
-```{r, eval=FALSE}
+```{r}
 cmap <- leafletGeo("city")
 AS <- AreaStat %>% filter(!provinceName %in% c("北京市", "上海市", "天津市", "重庆市", "香港", "台湾", "澳门"))
+AS$cityName[which(AS$cityName == "神农架林区")] <- "神农架"
 cmap@data <- cmap@data %>% left_join(na.omit(AS), by = c("name" = "cityName"))
 cmap@data[is.na(cmap@data)] <- 0
-cmap@data[381, 11:14] <- ChinaStat[5, 10:13]
-cmap@data[382, 11:14] <- ChinaStat[17, 10:13]
-cmap@data[383, 11:14] <- ChinaStat[6, 10:13]
-cmap@data[384, 11:14] <- ChinaStat[9, 10:13]
+cmap@data[cmap@data$name=="北京", 11:14] <- ChinaStat[ChinaStat$provinceName=="北京市", 10:13]
+cmap@data[cmap@data$name=="上海", 11:14] <- ChinaStat[ChinaStat$provinceName=="上海市", 10:13]
+cmap@data[cmap@data$name=="天津", 11:14] <- ChinaStat[ChinaStat$provinceName=="天津市", 10:13]
+cmap@data[cmap@data$name=="重庆", 11:14] <- ChinaStat[ChinaStat$provinceName=="重庆市", 10:13]
+cmap@data[cmap@data$name=="香港", 11:14] <- ChinaStat[ChinaStat$provinceName=="香港特别行政区", 10:13]
+cmap@data[cmap@data$name=="澳门", 11:14] <- ChinaStat[ChinaStat$provinceName=="澳门特别行政区", 10:13]
+
 cmap@data[385, 11:14] <- ChinaStat[22, 10:13]
 
 clabs <- mapply(function(n, x, y, z, h){
@@ -186,8 +196,11 @@ llc <- leaflet(cmap) %>% addTiles() %>%
              fontSize = "12px",
              leftPosition = 80)
 
+saveWidget(llc, "nCoV2019_cities.html")
+file.rename("nCoV2019_cities.html", "widgets/nCoV2019_cities.html")
+
 ```
 
-[/widgets/nCoV2019_cities.html](/widgets/nCoV2019_cities.html)
+[/widgets/nCoV2019_cities.html](/widgets/nCoV2019_cities.html) (reload to show)
 
 <iframeComp ihtml="/widgets/nCoV2019_cities.html"></iframeComp>
