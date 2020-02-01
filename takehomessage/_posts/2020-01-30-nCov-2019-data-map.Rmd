@@ -83,43 +83,12 @@ library(leafletCN)
 library(RColorBrewer)
 library(htmltools)
 library(htmlwidgets)
-ChinaStat$province <- c(
-    "Tibet Autonomous Region",
-    "Hubei",
-    "Guangdong",
-    "Zhejiang",
-    "Beijing",
-    "Shanghai",
-    "Hunan",
-    "Anhui",
-    "Chongqing",
-    "Sichuan",
-    "Shandong",
-    "Guangxi Zhuang Autonomous Region",
-    "Fujian",
-    "Jiangsu",
-    "Henan",
-    "Hainan",
-    "Tianjin",
-    "Jiangxi",
-    "Shaanxi",
-    "Guizhou",
-    "Liaoning",
-    "Hong Kong Special Administrative Region",
-    "Heilongjiang",
-    "Macao Special Administrative Region",
-    "Xinjiang Uygur Autonomous Region",
-    "Gansu province",
-    "Yunnan",
-    "Taiwan",
-    "Shanxi",
-    "Jilin",
-    "Hebei",
-    "Ningxia Hui Autonomous Region",
-    "Inner Mongolia Autonomous Region",
-    "Qinghai")
-map = leafletGeo("china", ChinaStat, namevar = ~provinceName, valuevar = ~confirmedCount)
-ChinaStat$provinceName[c(22, 24, 28)] <- c("香港特别行政区", "澳门特别行政区", "台湾省")
+pn <- read_csv("data/province_name.csv")
+ChinaStat <- ChinaStat %>% left_join(pn, by = "provinceName")
+map <- leafletGeo("china", ChinaStat, namevar = ~provinceName, valuevar = ~confirmedCount)
+ChinaStat$provinceName[ChinaStat$provinceName==c("香港")] <- c("香港特别行政区")
+ChinaStat$provinceName[ChinaStat$provinceName==c("澳门")] <- c("澳门特别行政区")
+ChinaStat$provinceName[ChinaStat$provinceName==c("台湾")] <- c("台湾省")
 map@data <- map@data %>% left_join(ChinaStat, by = c("name" = "provinceName"))
 
 bins <- c(1, 10, 20, 50, 100, 200, 500, 1000, Inf)
@@ -168,14 +137,14 @@ AS <- AreaStat %>% filter(!provinceName %in% c("北京市", "上海市", "天津
 AS$cityName[which(AS$cityName == "神农架林区")] <- "神农架"
 cmap@data <- cmap@data %>% left_join(na.omit(AS), by = c("name" = "cityName"))
 cmap@data[is.na(cmap@data)] <- 0
-cmap@data[cmap@data$name=="北京", 11:14] <- ChinaStat[ChinaStat$provinceName=="北京市", 10:13]
-cmap@data[cmap@data$name=="上海", 11:14] <- ChinaStat[ChinaStat$provinceName=="上海市", 10:13]
-cmap@data[cmap@data$name=="天津", 11:14] <- ChinaStat[ChinaStat$provinceName=="天津市", 10:13]
-cmap@data[cmap@data$name=="重庆", 11:14] <- ChinaStat[ChinaStat$provinceName=="重庆市", 10:13]
-cmap@data[cmap@data$name=="香港", 11:14] <- ChinaStat[ChinaStat$provinceName=="香港特别行政区", 10:13]
-cmap@data[cmap@data$name=="澳门", 11:14] <- ChinaStat[ChinaStat$provinceName=="澳门特别行政区", 10:13]
-
-cmap@data[385, 11:14] <- ChinaStat[22, 10:13]
+idx1 <- match(c("confirmedCount", "suspectedCount", "curedCount", "deadCount"), colnames(cmap@data))
+idx2 <- match(c("confirmedCount", "suspectedCount", "curedCount", "deadCount"), colnames(ChinaStat))
+cmap@data[cmap@data$name=="北京", idx1] <- ChinaStat[ChinaStat$provinceShortName=="北京", idx2]
+cmap@data[cmap@data$name=="上海", idx1] <- ChinaStat[ChinaStat$provinceShortName=="上海", idx2]
+cmap@data[cmap@data$name=="天津", idx1] <- ChinaStat[ChinaStat$provinceShortName=="天津", idx2]
+cmap@data[cmap@data$name=="重庆", idx1] <- ChinaStat[ChinaStat$provinceShortName=="重庆", idx2]
+cmap@data[cmap@data$name=="香港", idx1] <- ChinaStat[ChinaStat$provinceShortName=="香港", idx2]
+cmap@data[cmap@data$name=="澳门", idx1] <- ChinaStat[ChinaStat$provinceShortName=="澳门", idx2]
 
 clabs <- mapply(function(n, x, y, z, h){
     HTML(paste0(n, "<br>",
