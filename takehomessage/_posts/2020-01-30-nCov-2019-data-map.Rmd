@@ -39,8 +39,9 @@ AreaStat <- pneumonia %>% html_nodes("#getAreaStat") %>% html_text() %>%
     rename(confirmedCount_sum = confirmedCount,
            suspectedCount_sum = suspectedCount,
            curedCount_sum = curedCount,
-           deadCount_sum = deadCount) %>%
-    unnest(cities, keep_empty = T)
+           deadCount_sum = deadCount,
+           locationId_s = locationId) %>%
+    unnest(cities, keep_empty = T, names_repair = "unique")
 
 ChinaStat <- pneumonia %>% html_nodes("#getListByCountryTypeService1") %>% html_text() %>%
     str_replace("try \\{ window.getListByCountryTypeService1 =", "") %>%
