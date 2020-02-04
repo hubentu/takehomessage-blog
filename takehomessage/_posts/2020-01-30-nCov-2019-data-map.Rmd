@@ -136,6 +136,12 @@ file.rename("nCoV2019.html", "widgets/nCoV2019.html")
 cmap <- leafletGeo("city")
 AS <- AreaStat %>% filter(!provinceName %in% c("北京市", "上海市", "天津市", "重庆市", "香港", "台湾", "澳门"))
 AS$cityName[which(AS$cityName == "神农架林区")] <- "神农架"
+AS$cityName[which(AS$cityName == "恩施州")] <- "恩施"
+AS$cityName[which(AS$cityName == "湘西自治州")] <- "湘西"
+AS$cityName[which(AS$cityName == "黔南州")] <- "黔南"
+AS$cityName[which(AS$cityName == "黔东南州")] <- "黔东南"
+AS$cityName[which(AS$cityName == "黔西南州")] <- "黔西南"
+
 cmap@data <- cmap@data %>% left_join(na.omit(AS), by = c("name" = "cityName"))
 cmap@data[is.na(cmap@data)] <- 0
 idx1 <- match(c("confirmedCount", "suspectedCount", "curedCount", "deadCount"), colnames(cmap@data))
